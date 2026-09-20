@@ -1,0 +1,55 @@
+<nav class="bg-slate-900 text-white">
+  <div class="mx-auto flex max-w-5xl justify-between px-6 py-4">
+    <a routerLink="/" class="font-bold">Student Portal</a>
+    <a routerLink="/login" class="hover:text-cyan-300">Admin Login</a>
+  </div>
+</nav>
+
+<main class="mx-auto max-w-4xl px-6 py-10">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold">Add Student</h1>
+    <p class="mt-2 text-slate-600">Enter student details below.</p>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="rounded-2xl bg-white p-8 shadow">
+    <div class="grid gap-5 md:grid-cols-2">
+      @for (field of fields; track field.name) {
+        <div [class.md:col-span-2]="field.full">
+          <label class="mb-1 block text-sm font-semibold">{{ field.label }}</label>
+
+          @if (field.type === 'select') {
+            <select [formControlName]="field.name" class="w-full rounded-lg border px-3 py-2">
+              <option value="">Select</option>
+              @for (option of field.options; track option) {
+                <option [value]="option">{{ option }}</option>
+              }
+            </select>
+          } @else {
+            <input
+              [type]="field.type"
+              [formControlName]="field.name"
+              class="w-full rounded-lg border px-3 py-2 outline-none focus:border-cyan-500"
+            />
+          }
+        </div>
+      }
+    </div>
+
+    @if (message) {
+      <p class="mt-5 rounded-lg bg-emerald-50 p-3 text-emerald-700">
+        {{ message }}
+      </p>
+    }
+
+    @if (error) {
+      <p class="mt-5 rounded-lg bg-red-50 p-3 text-red-700">{{ error }}</p>
+    }
+
+    <button
+      [disabled]="loading"
+      class="mt-7 rounded-lg bg-slate-900 px-6 py-3 font-semibold text-white disabled:opacity-50"
+    >
+      {{ loading ? 'Saving...' : 'Save Student' }}
+    </button>
+  </form>
+</main>

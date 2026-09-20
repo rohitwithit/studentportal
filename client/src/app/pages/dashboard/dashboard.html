@@ -1,0 +1,106 @@
+<nav class="bg-slate-900 text-white">
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+    <a routerLink="/" class="font-bold">Student Portal Admin</a>
+    <button (click)="logout()" class="rounded-lg bg-white/10 px-4 py-2 hover:bg-white/20">
+      Logout
+    </button>
+  </div>
+</nav>
+
+<main class="mx-auto max-w-7xl px-6 py-8">
+  <div class="mb-7 flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <h1 class="text-3xl font-bold">Dashboard</h1>
+      <p class="text-slate-600">Manage all registered students.</p>
+    </div>
+    <a routerLink="/add-student" class="rounded-lg bg-slate-900 px-5 py-3 font-semibold text-white">
+      + Add Student
+    </a>
+  </div>
+
+  @if (message) {
+    <p class="mb-5 rounded-lg bg-emerald-50 p-3 text-emerald-700">
+      {{ message }}
+    </p>
+  }
+
+  @if (error) {
+    <p class="mb-5 rounded-lg bg-red-50 p-3 text-red-700">{{ error }}</p>
+  }
+
+  <div class="overflow-x-auto rounded-2xl bg-white shadow">
+    <table class="min-w-full text-left text-sm">
+      <thead class="bg-slate-100">
+        <tr>
+          <th class="px-4 py-3">Name</th>
+          <th class="px-4 py-3">Email</th>
+          <th class="px-4 py-3">Gender</th>
+          <th class="px-4 py-3">DOB</th>
+          <th class="px-4 py-3">Class</th>
+          <th class="px-4 py-3">Course</th>
+          <th class="px-4 py-3">Fees</th>
+          <th class="px-4 py-3">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (student of students; track student._id) {
+          <tr class="border-t">
+            @if (editingId === student._id) {
+              <td class="px-4 py-3">
+                <input [(ngModel)]="editModel.name" class="w-32 rounded border px-2 py-1" />
+              </td>
+              <td class="px-4 py-3">
+                <input [(ngModel)]="editModel.email" class="w-44 rounded border px-2 py-1" />
+              </td>
+              <td class="px-4 py-3">
+                <select [(ngModel)]="editModel.gender" class="rounded border px-2 py-1">
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Other</option>
+                </select>
+              </td>
+              <td class="px-4 py-3">
+                <input type="date" [(ngModel)]="editModel.dob" class="rounded border px-2 py-1" />
+              </td>
+              <td class="px-4 py-3">
+                <input [(ngModel)]="editModel.class" class="w-24 rounded border px-2 py-1" />
+              </td>
+              <td class="px-4 py-3">
+                <input [(ngModel)]="editModel.course" class="w-28 rounded border px-2 py-1" />
+              </td>
+              <td class="px-4 py-3">
+                <input
+                  type="number"
+                  [(ngModel)]="editModel.fees"
+                  class="w-24 rounded border px-2 py-1"
+                />
+              </td>
+              <td class="px-4 py-3 whitespace-nowrap">
+                <button (click)="saveEdit(student._id!)" class="mr-2 text-emerald-600">Save</button>
+                <button (click)="cancelEdit()" class="text-slate-500">Cancel</button>
+              </td>
+            } @else {
+              <td class="px-4 py-3 font-medium">{{ student.name }}</td>
+              <td class="px-4 py-3">{{ student.email }}</td>
+              <td class="px-4 py-3">{{ student.gender }}</td>
+              <td class="px-4 py-3">
+                {{ student.dob | date: 'mediumDate' }}
+              </td>
+              <td class="px-4 py-3">{{ student.class }}</td>
+              <td class="px-4 py-3">{{ student.course }}</td>
+              <td class="px-4 py-3">₹{{ student.fees }}</td>
+              <td class="px-4 py-3 whitespace-nowrap">
+                <button (click)="startEdit(student)" class="mr-3 text-blue-600">Edit</button>
+                <button (click)="deleteStudent(student._id!)" class="text-red-600">Delete</button>
+              </td>
+            }
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="8" class="px-4 py-12 text-center text-slate-500">No students found.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</main>

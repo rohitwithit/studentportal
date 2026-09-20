@@ -1,0 +1,39 @@
+<nav class="bg-slate-900 text-white">
+      <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <a routerLink="/" class="text-xl font-bold">Student Portal</a>
+        <div class="flex gap-5">
+          <a routerLink="/add-student" class="hover:text-cyan-300">Add Student</a>
+          <a routerLink="/login" class="hover:text-cyan-300">Admin Login</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="mx-auto max-w-6xl px-6 py-20">
+      <div class="grid items-center gap-12 md:grid-cols-2">
+        <section>
+          <p class="mb-3 font-semibold text-cyan-600">STUDENT MANAGEMENT SYSTEM</p>
+          <h1 class="text-5xl font-extrabold leading-tight">Manage student records simply.</h1>
+          <p class="mt-5 text-lg text-slate-600">
+            Add student information from the public portal and manage records securely from the admin dashboard.
+          </p>
+          <div class="mt-8 flex gap-4">
+            <a routerLink="/add-student" class="rounded-lg bg-slate-900 px-6 py-3 font-semibold text-white hover:bg-slate-700">
+              Add Student
+            </a>
+            <a routerLink="/login" class="rounded-lg border border-slate-300 px-6 py-3 font-semibold hover:bg-white">
+              Admin Login
+            </a>
+          </div>
+        </section>
+        <div class="rounded-3xl bg-gradient-to-br from-cyan-500 to-blue-700 p-10 text-white shadow-xl">
+          <h2 class="text-3xl font-bold">Student Portal</h2>
+          <p class="mt-4 text-cyan-50">Angular + Tailwind CSS + Express + MongoDB</p>
+          <div class="mt-8 grid grid-cols-2 gap-4">
+            <div class="rounded-xl bg-white/15 p-5"><b class="text-2xl">01</b><p>Add Students</p></div>
+            <div class="rounded-xl bg-white/15 p-5"><b class="text-2xl">02</b><p>Admin Login</p></div>
+            <div class="rounded-xl bg-white/15 p-5"><b class="text-2xl">03</b><p>Update Records</p></div>
+            <div class="rounded-xl bg-white/15 p-5"><b class="text-2xl">04</b><p>Delete Records</p></div>
+          </div>
+        </div>
+      </div>
+    </main>
