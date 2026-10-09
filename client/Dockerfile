@@ -1,4 +1,4 @@
-# Stage 1: Build React app
+# Stage 1: Build React (Vite) app
 FROM node:20-alpine AS build
 
 WORKDIR /app
@@ -8,20 +8,18 @@ RUN npm ci
 
 COPY . .
 
-# Build the production version
+# Build with relative API path so Nginx can proxy /api
+ENV VITE_API_URL=/api
 RUN npm run build
 
 # Stage 2: Serve with Nginx
 FROM nginx:alpine
 
-# Remove default nginx config
 RUN rm /etc/nginx/conf.d/default.conf
 
-# Copy custom nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy the built React files
-# For Vite the output is usually in "dist"
+# Vite outputs to /dist
 COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80
