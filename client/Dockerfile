@@ -1,5 +1,5 @@
-# Stage 1: Build React (Vite) app
-FROM node:24-alpine AS build
+# Stage 1 – Build React (Vite)
+FROM node:20-alpine AS build
 
 WORKDIR /app
 
@@ -8,18 +8,15 @@ RUN npm ci
 
 COPY . .
 
-# Build with relative API path so Nginx can proxy /api
+# Relative API path – Nginx will proxy /api
 ENV VITE_API_URL=/api
 RUN npm run build
 
-# Stage 2: Serve with Nginx
+# Stage 2 – Nginx
 FROM nginx:alpine
 
 RUN rm /etc/nginx/conf.d/default.conf
-
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Vite outputs to /dist
 COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80
