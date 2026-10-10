@@ -67,6 +67,11 @@ sudo systemctl disable apache2
 sudo apt remove apache2 -y
 ```
 
+
+# Replace HOST_IP placeholder in nginx.conf
+sed -i "s/HOST_IP/$HOST_IP/g" nginx.conf
+
+
 ## 5. Build & Start All Services
 
 ```bash
