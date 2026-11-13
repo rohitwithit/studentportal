@@ -1,11 +1,25 @@
-Student Portal - Easy Deployment GuideThis guide helps you deploy the Student Portal application on an Ubuntu EC2 instance (or any Ubuntu server) using a single script.Prerequisites
-Ubuntu 22.04 / 24.04 / 26.04 server
-User with sudo privileges (default ubuntu user on AWS)
-Security Group / Firewall must allow:
-Port 22 (SSH) — from your IP
-Port 80 (HTTP) — from 0.0.0.0/0
+# Student Portal - Easy Deployment Guide
 
-Quick Deploy (Recommended)1. Connect to your serverBashssh ubuntu@<YOUR_PUBLIC_IP>2. Create the deployment scriptBashnano deploy.shPaste the following content into the file:Bash#!/bin/bash
+This guide helps you deploy the **Student Portal** application on an Ubuntu EC2 instance (or any Ubuntu server) using a single script.
+
+---
+
+## Prerequisites
+
+- Ubuntu 22.04 / 24.04 / 26.04 server
+- User with `sudo` privileges (default `ubuntu` user on AWS)
+- Security Group / Firewall must allow:
+  - **Port 22** (SSH) — from your IP
+  - **Port 80** (HTTP) — from `0.0.0.0/0`
+
+---
+
+## Quick Deploy (Recommended)
+
+### 1. Connect to your server
+
+```bash
+ssh ubuntu@<YOUR_PUBLIC_IP>2. Create the deployment scriptBashnano deploy.shPaste the following content into the file:Bash#!/bin/bash
 set -euxo pipefail
 
 echo "===== Starting deployment ====="
@@ -127,4 +141,4 @@ After DeploymentAccess the applicationOpen your browser and go to:Texthttp://<YO
 
 
 
-FieldValueEmailexample@gmail.comPasswordExample@123Change the password after first login.
+FieldValueEmailexample@gmail.comPasswordExample@123
