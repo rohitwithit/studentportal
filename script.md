@@ -19,7 +19,15 @@ This guide helps you deploy the **Student Portal** application on an Ubuntu EC2 
 ### 1. Connect to your server
 
 ```bash
-ssh ubuntu@<YOUR_PUBLIC_IP>2. Create the deployment scriptBashnano deploy.shPaste the following content into the file:Bash#!/bin/bash
+Create the deployment script
+
+
+vim deploy.sh
+
+
+Paste the following content into the file:
+
+#!/bin/bash
 set -euxo pipefail
 
 echo "===== Starting deployment ====="
@@ -116,7 +124,10 @@ fi
 if ! end; then
     echo "deployment not ended"
     exit 1
-fi3. Make the script executable and run itBashchmod +x deploy.sh
+fi
+
+
+3. Make the script executable and run itBashchmod +x deploy.sh
 ./deploy.shWait 2–4 minutes. The script will:
 Remove Apache (frees port 80)
 Install Docker + Git
