@@ -1,32 +1,45 @@
-# Student Portal - Easy Deployment Guide
+# Student Portal – Easy Deployment Guide
 
-This guide helps you deploy the **Student Portal** application on an Ubuntu EC2 instance (or any Ubuntu server) using a single script.
-
----
+This guide explains how to deploy the **Student Portal** application on an Ubuntu EC2 instance or any Ubuntu-based server using a single deployment script.
 
 ## Prerequisites
 
-- Ubuntu 22.04 / 24.04 / 26.04 server
-- User with `sudo` privileges (default `ubuntu` user on AWS)
-- Security Group / Firewall must allow:
-  - **Port 22** (SSH) — from your IP
-  - **Port 80** (HTTP) — from `0.0.0.0/0`
+Before starting, ensure you have:
+
+- Ubuntu 22.04 / 24.04 / 26.04 server.
+- A user account with `sudo` privileges (default `ubuntu` user on AWS EC2).
+- An AWS Security Group or firewall configured to allow the following ports:
+
+| Port | Protocol | Purpose | Source |
+|---|---|---|---|
+| 22 | SSH | Server access | Your IP address |
+| 80 | HTTP | Web application access | `0.0.0.0/0` |
 
 ---
 
-## Quick Deploy (Recommended)
+## Quick Deployment (Recommended)
 
-### 1. Connect to your server
+### Step 1: Connect to Your Server
+
+Connect to your Ubuntu EC2 instance using SSH:
 
 ```bash
-Create the deployment script
+ssh ubuntu@<YOUR_PUBLIC_IP>
+```
 
+### Step 2: Create the Deployment Script
 
+Create a new deployment script:
+
+```bash
 vim deploy.sh
+```
 
+Paste the following script into the file:
 
-Paste the following content into the file:
+### Deployment Script
 
+```bash
 #!/bin/bash
 set -euxo pipefail
 
@@ -125,31 +138,110 @@ if ! end; then
     echo "deployment not ended"
     exit 1
 fi
+```
 
+### Step 3: Make the Script Executable
 
-3. Make the script executable and run itBashchmod +x deploy.sh
-./deploy.shWait 2–4 minutes. The script will:
-Remove Apache (frees port 80)
-Install Docker + Git
-Clone the repository
-Fix nginx configuration
-Build and start all containers
-Create the default admin user
-After DeploymentAccess the applicationOpen your browser and go to:Texthttp://<YOUR_PUBLIC_IP>Default Admin Credentials
+Run the following command to grant execution permissions:
 
+```bash
+chmod +x deploy.sh
+```
 
+### Step 4: Execute the Deployment Script
 
+Start the deployment:
 
+```bash
+./deploy.sh
+```
 
+Wait approximately **2–4 minutes** for the deployment process to complete.
 
+The script automatically performs the following operations:
 
+1. Removes Apache to free up port 80.
+2. Installs Docker, Docker Compose V2, and Git.
+3. Removes Apache again after package installation.
+4. Enables and starts the Docker service.
+5. Clones the Student Portal repository from GitHub.
+6. Updates the Nginx configuration to use the Docker backend service.
+7. Builds and starts all Docker containers.
+8. Waits 25 seconds for the containers to initialize.
+9. Executes `seedAdmin.js` to create the default admin user.
+10. Displays the running Docker containers.
 
+---
 
+## After Deployment
 
+### 1. Access the Application
 
+Once deployment is complete, open your browser and navigate to:
 
+```text
+http://<YOUR_PUBLIC_IP>
+```
 
+Replace `<YOUR_PUBLIC_IP>` with your EC2 instance's actual public IP address.
 
+### 2. Default Admin Credentials
 
+Use the following credentials to access the admin portal:
 
-FieldValueEmailexample@gmail.comPasswordExample@123
+| Field | Value |
+|---|---|
+| Email | example@gmail.com |
+| Password | |
+
+> **Note:** Replace the example email and enter the actual admin password configured in your `seedAdmin.js` file.
+
+---
+
+## Deployment Verification
+
+To verify that the Docker containers are running successfully, execute:
+
+```bash
+sudo docker ps
+```
+
+To view all containers, including stopped containers:
+
+```bash
+sudo docker ps -a
+```
+
+To check application logs:
+
+```bash
+sudo docker compose logs -f
+```
+
+To check backend logs:
+
+```bash
+sudo docker compose logs -f backend
+```
+
+To check frontend logs:
+
+```bash
+sudo docker compose logs -f client
+```
+
+---
+
+## Important Notes
+
+- Ensure that port 80 is available before starting the deployment.
+- Make sure your GitHub repository is publicly accessible or that the server has the required GitHub authentication configured.
+- Verify that the environment variables required by the backend are configured correctly.
+- The Docker Compose configuration must define the `backend` service and the corresponding `client` service.
+- The admin seeding script must be available at the backend container's expected path.
+- Do not share your admin password or production environment credentials.
+
+---
+
+**Deployment Guide – Student Portal**
+
